@@ -2,41 +2,63 @@ const Resource = require('../models/resource.model.js')
 
 class ResourceService {
   getResources () {
-    const resources = Resource.findAll()
-    return resources
+    return Promise.resolve().then(() => {
+      const resources = Resource.findAll()
+      return resources
+    }).catch(err => {
+      return { error: err }
+    })
   }
 
   getResource (id) {
-    const resource = Resource.findByPk(id)
-    return resource
-  }
-
-  // без async не отрабатывает try catch https://stackoverflow.com/questions/61532921/sequelize-try-block-wont-catch-on-model-create-error
-  async createResource (data) {
-    try {
-      const resource = await Resource.create(data)
+    return Promise.resolve().then(() => {
+      const resource = Resource.findByPk(id)
       return resource
-    } catch (err) {
-      return null
-    }
+    }).catch(err => {
+      return { error: err }
+    })
   }
 
-  async updateResource (id, data) {
-    const resource = await Resource.update(data, {
-      where: {
-        id
-      }
+  createResource (data) {
+    const { title, discription, sheduleId, managerId, workerIds } = data
+    return Promise.resolve().then(() => {
+      const resource = Resource.create({
+        title,
+        discription,
+        sheduleId,
+        managerId,
+        workerId
+      })
+      return resource
+    }).catch(err => {
+      return { error: err }
     })
-    if (resource[0]) { return resource } else { return null }
+  }
+
+  updateResource (id, data) {
+    return Promise.resolve().then(() => {
+      const resource = Resource.update(data, {
+        where: {
+          id
+        }
+      })
+      return resource
+    }).catch(err => {
+      return null
+    })
   }
 
   deleteResource (id) {
-    const resource = Resource.destroy({
-      where: {
-        id
-      }
+    Promise.resolve().then(() => {
+      const resource = Resource.destroy({
+        where: {
+          id
+        }
+      })
+      return resource
+    }).catch(err => {
+      return null
     })
-    return resource
   }
 }
 

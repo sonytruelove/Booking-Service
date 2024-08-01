@@ -1,8 +1,8 @@
-const resourceService = require('../services/resource.service')
+const dayService = require('../services/day.service')
 
-class ResourceController {
-  async getResources (req, res) {
-    const result = await resourceService.getResources()
+class DayController {
+  async getDays (req, res) {
+    const result = await dayService.getDays()
     if (result.error) {
       return res
         .status(400)
@@ -11,9 +11,9 @@ class ResourceController {
     if (result) { return res.status(200).send({ result }) }
   }
 
-  async getResourceByID (req, res) {
+  async getDayByID (req, res) {
     if (req.params.id) {
-      const result = await resourceService.getResource(
+      const result = await dayService.getDay(
         req.params.id
       )
       if (result.error) {
@@ -29,8 +29,8 @@ class ResourceController {
     }
   }
 
-  async createResource (req, res) {
-    const result = await resourceService.createResource(
+  async createDay (req, res) {
+    const result = await dayService.createDay(
       req.body
     )
     if (result.error) {
@@ -41,44 +41,45 @@ class ResourceController {
     if (result) { return }
     res
       .status(201)
-      .send(`Resource ${result.title} was created succesfully`)
+      .send(`Day ${result.title} was created succesfully`)
   }
 
-  async updateResource (req, res) {
+  async updateDay (req, res) {
     if (req.params.id) {
-      const result = await resourceService.updateResource(
+      const result = await dayService.updateDay(
         req.params.id, req.body
+      )
+      console.log(result)
+      if (result.error) {
+        return res
+          .status(400)
+          .send({ result })
+      }
+      if (result[0]) { return res.status(200).send('Day was updated succesfully') }
+    } else {
+      return res
+        .status(404)
+        .send({ message: 'Day not found.' })
+    }
+  }
+
+  async deleteDay (req, res) {
+    if (req.params.id) {
+      const result = await dayService.deleteDay(
+        req.params.id
       )
       if (result.error) {
         return res
           .status(400)
           .send({ result })
       }
-      if (result[0]) { return res.status(200).send('Resource was updated succesfully') }
+      return res.status(200).send('Day was deleted successfully')
     } else {
       return res
         .status(404)
-        .send({ message: 'Resource not found.' })
-    }
-  }
-
-  async deleteResource (req, res) {
-    if (req.params.id) {
-      const result = await resourceService.deleteResource(
-        req.params.id
-      )
-      if (result?.error) {
-        return res
-          .status(400)
-          .send({ result })
-      }
-      return res.status(200).send('Resource was deleted successfully')
-    } else {
-      return res
-        .status(404)
-        .send({ message: 'Resource not found.' })
+        .send({ message: 'Day not found.' })
     }
   }
 }
 
-module.exports = new ResourceController()
+module.exports = new DayController()

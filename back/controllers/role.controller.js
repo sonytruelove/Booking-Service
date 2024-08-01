@@ -1,8 +1,8 @@
-const resourceService = require('../services/resource.service')
+const roleService = require('../services/role.service')
 
-class ResourceController {
-  async getResources (req, res) {
-    const result = await resourceService.getResources()
+class RoleController {
+  async getRoles (req, res) {
+    const result = await roleService.getRoles()
     if (result.error) {
       return res
         .status(400)
@@ -11,9 +11,9 @@ class ResourceController {
     if (result) { return res.status(200).send({ result }) }
   }
 
-  async getResourceByID (req, res) {
+  async getRoleByID (req, res) {
     if (req.params.id) {
-      const result = await resourceService.getResource(
+      const result = await roleService.getRole(
         req.params.id
       )
       if (result.error) {
@@ -29,8 +29,8 @@ class ResourceController {
     }
   }
 
-  async createResource (req, res) {
-    const result = await resourceService.createResource(
+  async createRole (req, res) {
+    const result = await roleService.createRole(
       req.body
     )
     if (result.error) {
@@ -41,12 +41,12 @@ class ResourceController {
     if (result) { return }
     res
       .status(201)
-      .send(`Resource ${result.title} was created succesfully`)
+      .send(`Role ${result.title} was created succesfully`)
   }
 
-  async updateResource (req, res) {
+  async updateRole (req, res) {
     if (req.params.id) {
-      const result = await resourceService.updateResource(
+      const result = await roleService.updateRole(
         req.params.id, req.body
       )
       if (result.error) {
@@ -54,17 +54,17 @@ class ResourceController {
           .status(400)
           .send({ result })
       }
-      if (result[0]) { return res.status(200).send('Resource was updated succesfully') }
+      if (result[0]) { return res.status(200).send('Role was updated succesfully') }
     } else {
       return res
         .status(404)
-        .send({ message: 'Resource not found.' })
+        .send({ message: 'Role not found.' })
     }
   }
 
-  async deleteResource (req, res) {
+  async deleteRole (req, res) {
     if (req.params.id) {
-      const result = await resourceService.deleteResource(
+      const result = await roleService.deleteRole(
         req.params.id
       )
       if (result?.error) {
@@ -72,13 +72,13 @@ class ResourceController {
           .status(400)
           .send({ result })
       }
-      return res.status(200).send('Resource was deleted successfully')
+      return res.status(200).send('Role was deleted successfully')
     } else {
       return res
         .status(404)
-        .send({ message: 'Resource not found.' })
+        .send({ message: 'Role not found.' })
     }
   }
 }
 
-module.exports = new ResourceController()
+module.exports = new RoleController()

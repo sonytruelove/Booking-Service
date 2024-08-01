@@ -1,8 +1,8 @@
-const resourceService = require('../services/resource.service')
+const userService = require('../services/user.service')
 
-class ResourceController {
-  async getResources (req, res) {
-    const result = await resourceService.getResources()
+class UserController {
+  async getUsers (req, res) {
+    const result = await userService.getUsers()
     if (result.error) {
       return res
         .status(400)
@@ -11,9 +11,9 @@ class ResourceController {
     if (result) { return res.status(200).send({ result }) }
   }
 
-  async getResourceByID (req, res) {
+  async getUserByID (req, res) {
     if (req.params.id) {
-      const result = await resourceService.getResource(
+      const result = await userService.getUser(
         req.params.id
       )
       if (result.error) {
@@ -29,8 +29,8 @@ class ResourceController {
     }
   }
 
-  async createResource (req, res) {
-    const result = await resourceService.createResource(
+  async createUser (req, res) {
+    const result = await userService.createUser(
       req.body
     )
     if (result.error) {
@@ -41,12 +41,12 @@ class ResourceController {
     if (result) { return }
     res
       .status(201)
-      .send(`Resource ${result.title} was created succesfully`)
+      .send(`User ${result.title} was created succesfully`)
   }
 
-  async updateResource (req, res) {
+  async updateUser (req, res) {
     if (req.params.id) {
-      const result = await resourceService.updateResource(
+      const result = await userService.updateUser(
         req.params.id, req.body
       )
       if (result.error) {
@@ -54,17 +54,17 @@ class ResourceController {
           .status(400)
           .send({ result })
       }
-      if (result[0]) { return res.status(200).send('Resource was updated succesfully') }
+      if (result[0]) { return res.status(200).send('User was updated succesfully') }
     } else {
       return res
         .status(404)
-        .send({ message: 'Resource not found.' })
+        .send({ message: 'User not found.' })
     }
   }
 
-  async deleteResource (req, res) {
+  async deleteUser (req, res) {
     if (req.params.id) {
-      const result = await resourceService.deleteResource(
+      const result = await userService.deleteUser(
         req.params.id
       )
       if (result?.error) {
@@ -72,13 +72,13 @@ class ResourceController {
           .status(400)
           .send({ result })
       }
-      return res.status(200).send('Resource was deleted successfully')
+      return res.status(200).send('User was deleted successfully')
     } else {
       return res
         .status(404)
-        .send({ message: 'Resource not found.' })
+        .send({ message: 'User not found.' })
     }
   }
 }
 
-module.exports = new ResourceController()
+module.exports = new UserController()

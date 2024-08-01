@@ -1,6 +1,6 @@
-const Sequilize = require('sequelize')
+const { Sequelize } = require('sequelize');
 
-const sequilize = new Sequilize(process.env.DATABASE, process.env.DB_USER, process.env.PASSWORD, {
+const sequelize = new Sequelize(process.env.DATABASE, process.env.DB_USER, process.env.PASSWORD, {
   host: process.env.HOST,
   dialect: process.env.DIALECT,
   operatorsAliases: 0,
@@ -11,6 +11,8 @@ const sequilize = new Sequilize(process.env.DATABASE, process.env.DB_USER, proce
     idle: process.env.POOLIDLE
   }
 })
-sequilize.sync()
+
+sequelize.sync()
   .catch(err => console.log(err))
-module.exports = sequilize
+
+module.exports = sequelize

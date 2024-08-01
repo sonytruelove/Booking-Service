@@ -1,7 +1,22 @@
 const express = require('express')
 const router = express.Router()
 const resourceRoutes = require('./resource.routes')
-
+const resourceBookingRoutes = require('./resource-booking.routes')
+const statusRoutes = require('./status.routes')
+const sheduleRoutes = require('./shedule.routes')
+const dayRoutes = require('./day.routes')
+const userRoutes = require('./user.routes')
+const roleRoutes = require('./role.routes')
+const resourceWorkerRoutes = require('./resource-worker.routes')
+const organizationRoutes = require('./organization.routes')
 router.use('/resource', resourceRoutes)
+router.use('/resource-booking', resourceBookingRoutes)
+router.use('/status', statusRoutes)
+router.use('/shedule', sheduleRoutes)
+router.use('/day', dayRoutes)
+router.use('/role', roleRoutes)
+router.use('/user', userRoutes)
+router.use('/organization', organizationRoutes)
+router.use('/resource-worker', resourceWorkerRoutes)
 
 module.exports = router
