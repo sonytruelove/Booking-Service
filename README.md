@@ -7,6 +7,7 @@ Example:
 CLIENT_URL="http://localhost:3000"
 
 >HOST="127.0.0.1"
+Port=3001
 DB_USER="root"
 DATABASE="booking_service"
 PASSWORD="root"
